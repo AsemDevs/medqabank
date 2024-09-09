@@ -15,6 +15,11 @@ export class QuizzesService {
     return this.quizRepository.find();
   }
 
+  // Get a specific quiz by its ID
+  findOne(id: number): Promise<Quiz> {
+    return this.quizRepository.findOne({ where: { id } });
+  }
+
   // Create a new quiz
   create(quizData: Partial<Quiz>): Promise<Quiz> {
     const quiz = this.quizRepository.create(quizData);

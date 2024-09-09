@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, UseGuards } from '@nestjs/common';
 import { QuizzesService } from './quizzes.service';
 import { Quiz } from './quiz.entity';
 import { AuthGuard } from '@nestjs/passport';
@@ -11,6 +11,12 @@ export class QuizzesController {
   @Get()
   findAll(): Promise<Quiz[]> {
     return this.quizzesService.findAll();
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Get(':id') // Route to fetch a quiz by ID
+  findOne(@Param('id') id: number): Promise<Quiz> {
+    return this.quizzesService.findOne(id);
   }
 
   @UseGuards(AuthGuard('jwt'))

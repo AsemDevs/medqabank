@@ -4,6 +4,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { QuizzesModule } from './quizzes/quizzes.module';
 import { AuthModule } from './auth/auth.module';
+import { ResultsModule } from './results/results.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { AuthModule } from './auth/auth.module';
     }),
     QuizzesModule,
     AuthModule,
+    ResultsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

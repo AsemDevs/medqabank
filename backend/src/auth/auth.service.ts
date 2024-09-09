@@ -29,17 +29,18 @@ export class AuthService {
   }
 
   // Validate user credentials and generate JWT token
-  async login(loginDto: LoginDto): Promise<{ accessToken: string }> {
+  async login(loginDto: LoginDto): Promise<{ access_token: string }> { // Rename here to 'access_token'
     const { username, password } = loginDto;
     const user = await this.usersRepository.findOne({ where: { username } });
-
+  
     if (user && (await bcrypt.compare(password, user.password))) {
       // Generate JWT Token
       const payload = { username: user.username, sub: user.id };
-      const accessToken = this.jwtService.sign(payload);
-      return { accessToken };
+      const access_token = this.jwtService.sign(payload);  // Use 'access_token'
+      return { access_token };  // Return the token as 'access_token'
     } else {
       throw new UnauthorizedException('Invalid credentials');
     }
   }
+  
 }
