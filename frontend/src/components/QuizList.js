@@ -11,33 +11,31 @@ const QuizList = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false); // Track login state
 
     useEffect(() => {
-        // Check if the token exists in localStorage
         const token = localStorage.getItem('token');
         if (token) {
-            setIsLoggedIn(true); // User is logged in
-            // Fetch quizzes only if the user is authenticated
+            setIsLoggedIn(true);
             axiosInstance
                 .get('/quizzes', {
                     headers: {
-                        Authorization: `Bearer ${token}`,  // Include the JWT token
+                        Authorization: `Bearer ${token}`,
                     },
                 })
                 .then((response) => {
                     setQuizzes(response.data);
-                    setLoading(false); // Stop loading
+                    setLoading(false);
                 })
-                .catch((err) => {
+                .catch(() => {
                     setError('Failed to fetch quizzes. Please try again later.');
-                    setLoading(false); // Stop loading
+                    setLoading(false);
                 });
         } else {
-            setIsLoggedIn(false); // User is not logged in
-            setLoading(false); // Stop loading
+            setIsLoggedIn(false);
+            setLoading(false);
         }
     }, []);
 
     if (loading) {
-        return <p>Loading quizzes...</p>; // Show a loading message during fetch
+        return <p>Loading quizzes...</p>;
     }
 
     if (!isLoggedIn) {
@@ -60,7 +58,8 @@ const QuizList = () => {
                     {quizzes.map((quiz) => (
                         <li key={quiz.id} className="mb-4">
                             <h2 className="text-xl">{quiz.title}</h2>
-                            <Link href={`/quiz/${quiz.id}`} legacyBehavior>
+                            {/* Use Link without <a> tag */}
+                            <Link href={`/quiz/${quiz.id}`}>
                                 <button className="mt-2 px-4 py-2 bg-blue-500 text-white rounded">
                                     Start Quiz
                                 </button>

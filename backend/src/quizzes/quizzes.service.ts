@@ -10,14 +10,28 @@ export class QuizzesService {
     private quizRepository: Repository<Quiz>,
   ) {}
 
-  // Get all quizzes
-  findAll(): Promise<Quiz[]> {
-    return this.quizRepository.find();
+  // Get all quizzes and dynamically add question IDs
+  async findAll(): Promise<Quiz[]> {
+    const quizzes = await this.quizRepository.find();
+    return quizzes.map((quiz) => ({
+      ...quiz,
+      questions: quiz.questions.map((question, index) => ({
+        id: index + 1, // Assign an ID to each question
+        ...question,
+      })),
+    }));
   }
 
-  // Get a specific quiz by its ID
-  findOne(id: number): Promise<Quiz> {
-    return this.quizRepository.findOne({ where: { id } });
+  // Get a specific quiz by its ID and dynamically add question IDs
+  async findOne(id: number): Promise<Quiz> {
+    const quiz = await this.quizRepository.findOne({ where: { id } });
+    if (quiz) {
+      quiz.questions = quiz.questions.map((question, index) => ({
+        id: index + 1, // Assign an ID to each question
+        ...question,
+      }));
+    }
+    return quiz;
   }
 
   // Create a new quiz

@@ -6,8 +6,8 @@ export class Quiz {
   id: number;
 
   @Column()
-  title: string;
+  title: string; // Title for the quiz
 
-  @Column('jsonb')
+  @Column('jsonb')  // JSONB for storing multiple questions
   questions: { text: string; options: string[]; correctAnswer: string }[];
 }
